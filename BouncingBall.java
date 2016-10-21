@@ -47,7 +47,7 @@ public class BouncingBall extends JFrame {
 	 */
 
 	//Variable Hit wall
-	int hitWall= 0; 
+	int hitWall= 0;  
 	public BouncingBall() {
 		canvas = new DrawingCanvas();
 		canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT));
