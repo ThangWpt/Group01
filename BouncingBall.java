@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -35,9 +36,9 @@ public class BouncingBall extends JFrame {
 	Color ballColor = Color.BLACK;
 	//Paddle
 	int paddleWidth = 10;
-	int leftPaddleY;
+	int leftPaddleY = (HEIGHT-150)/2;
 	int leftPaddleHeight = 100;
-	int rightPaddleY;
+	int rightPaddleY = (HEIGHT-150)/2;
 	int rightPaddleHeight = 100;
 	//Mouse
 	int mouseX = 0, mouseY =0;
@@ -47,7 +48,7 @@ public class BouncingBall extends JFrame {
 	 */
 
 	//Variable Hit wall
-	int hitWall= 0;  
+	int hitWall= 0;
 	public BouncingBall() {
 		canvas = new DrawingCanvas();
 		canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -66,25 +67,34 @@ public class BouncingBall extends JFrame {
 			}
 		});
 
-		this.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+		this.addKeyListener(new KeyAdapter() {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode() == KeyEvent.VK_UP){
-					
+					rightPaddleY -=10;
+					if(rightPaddleY <0){
+						rightPaddleY = 0;
+					}
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+					rightPaddleY +=10;
+					if(rightPaddleY >= getHeight()-130){
+						rightPaddleY = getHeight()-130;
+					}
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_W){
+					leftPaddleY -=10;
+					if(leftPaddleY <0){
+						leftPaddleY = 0;
+					}
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_S){
+					leftPaddleY +=10;
+					if(leftPaddleY >= getHeight()-130){
+						leftPaddleY = getHeight()-130;
+					}
 				}
 			}
 		});
@@ -107,8 +117,10 @@ public class BouncingBall extends JFrame {
 					changeBallColor();
 				}
 				//Set fixed paddles position
-				leftPaddleY = (getHeight()-40)/2 - leftPaddleHeight/2;
+				/*leftPaddleY = (getHeight()-40)/2 - leftPaddleHeight/2;
 				rightPaddleY = (getHeight()-40)/2 - rightPaddleHeight/2;
+				*/
+				
 				repaint();
 			}
 		};
