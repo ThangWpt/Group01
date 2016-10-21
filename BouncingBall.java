@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
@@ -43,6 +45,9 @@ public class BouncingBall extends JFrame {
 	/**
 	 * Constructor
 	 */
+
+	//Variable Hit wall
+	int hitWall= 0;
 	public BouncingBall() {
 		canvas = new DrawingCanvas();
 		canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -61,6 +66,28 @@ public class BouncingBall extends JFrame {
 			}
 		});
 
+		this.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode() == KeyEvent.VK_UP){
+					
+				}
+			}
+		});
 		ActionListener updateTask = new ActionListener() {
 
 			@Override
@@ -72,6 +99,7 @@ public class BouncingBall extends JFrame {
 				if (x < 0 || x > WIDTH - size) {
 					xSpeed = -xSpeed;
 					changeBallColor();
+					hitWall++;
 				}
 				//Reverse the direction of the ball if it hits the top or bottom wall
 				if (y < 0 || y > HEIGHT - size) {
@@ -84,6 +112,7 @@ public class BouncingBall extends JFrame {
 				repaint();
 			}
 		};
+		
 		//Run timer
 		Timer timer = new Timer(UPDATETIME, updateTask);
 		timer.start();
@@ -116,8 +145,7 @@ public class BouncingBall extends JFrame {
 		protected void paintComponent(Graphics g) {
 			long start = System.nanoTime();
 			super.paintComponent(g);
-			//new Color(175,215,230)
-			setBackground(Color.WHITE);
+			setBackground(new Color(175,215,230));
 			//Ball
 			g.setColor(ballColor);
 			g.fillOval(x, y, size, size);
@@ -132,7 +160,10 @@ public class BouncingBall extends JFrame {
 			//Right Paddle
 			int rightPaddleX = getWidth()-paddleWidth;
 			g.fillRect(rightPaddleX, rightPaddleY, paddleWidth, rightPaddleHeight);
-			
+			//Hit wall
+			g.setColor(Color.RED);
+			g.drawString("Hit wall: "+hitWall, 320,350);
+
 			//Debug
 			long duration = System.nanoTime() - start;
 			//System.out.println("Paint in : "+ duration+ " nano seconds");
